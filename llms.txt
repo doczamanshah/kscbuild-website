@@ -2,7 +2,7 @@
 
 > Design-led builder of custom homes and commercial spaces, based in Florence, Alabama and serving the Shoals (Florence, Muscle Shoals, Sheffield, Tuscumbia) and surrounding North Alabama communities. Tagline: "Love the Space. Love the Journey." Supporting line: "Beautifully designed. Uniquely yours. Joyfully built."
 
-Keystone Constructions (KSC) creates custom homes, renovations and additions, residential communities, and commercial spaces such as medical office buildings. The company is known for elegant exteriors, interiors designed around how clients actually live, and a transparent, collaborative building experience: clients take part in design and selection decisions, receive regular updates with photos and progress, and are invited to meaningful walkthroughs as the project takes shape.
+Keystone Constructions (KSC) creates custom homes, residential communities, and commercial spaces such as medical office buildings. The company is known for elegant exteriors, interiors designed around how clients actually live, and a transparent, collaborative building experience: clients take part in design and selection decisions, receive regular updates with photos and progress, and are invited to meaningful walkthroughs as the project takes shape.
 
 Founder: Zaman Shah, MBA. The on-site team includes graduate-trained construction engineering leadership.
 
@@ -23,3 +23,7 @@ Contact: (938) 216-6630 · support@kscbuild.com · 406 East Tuscaloosa Street, U
 - YouTube: https://www.youtube.com/@KSCbuild
 - LinkedIn: https://www.linkedin.com/company/keystone-constructions-alabama/
 - X: https://x.com/kscbuild
+
+## Homesites
+
+Keystone helps clients find the right lot: clients who own a lot start there; others can choose a Keystone-held homesite in select neighborhoods (such as The Grove in Florence: https://kscbuild.com/grove/) or have Keystone search on their behalf.

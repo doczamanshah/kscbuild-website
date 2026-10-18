@@ -54,14 +54,35 @@
     show(0); start();
   }
 
+  /* Keep the visit's source (e.g. ?src=grove-sign) on links to the inquiry form */
+  try {
+    var visitSrc = new URLSearchParams(location.search).get('src');
+    if (visitSrc && !document.getElementById('inquiry-form')) {
+      document.querySelectorAll('a[href*="contact/"]').forEach(function (a) {
+        var u = new URL(a.getAttribute('href'), location.href);
+        if (!u.searchParams.get('src')) u.searchParams.set('src', visitSrc);
+        a.setAttribute('href', u.pathname + u.search + u.hash);
+      });
+    }
+  } catch (e) {}
+
   /* Contact form: preselect project type from ?project=, submit via fetch, fall back to a normal POST */
   var form = document.getElementById('inquiry-form');
   if (form) {
     try {
       var q = new URLSearchParams(location.search).get('project');
       var sel = form.querySelector('[name="Project type"]');
-      var map = { commercial: 'Commercial project', home: 'New custom home', renovation: 'Renovation or addition', development: 'Residential development' };
+      var map = { commercial: 'Commercial project', home: 'New custom home', development: 'Residential development' };
       if (q && sel && map[q]) sel.value = map[q];
+      var params = new URLSearchParams(location.search);
+      var siteMap = { own: 'Yes, I own a lot', find: 'Not yet, help me find one', keystone: 'A Keystone homesite' };
+      var hs = params.get('homesite'), siteSel = form.querySelector('[name="Homesite"]');
+      if (hs && siteSel && siteMap[hs]) siteSel.value = siteMap[hs];
+      var src = params.get('src'), srcIn = form.querySelector('[name="Lead source (auto)"]');
+      if (src && srcIn) srcIn.value = src.replace(/[^a-z0-9-]/gi, '').slice(0, 40);
+      var lot = params.get('lot'), lotIn = form.querySelector('[name="Homesite of interest (auto)"]');
+      if (lot && lotIn) lotIn.value = lot.replace(/[^a-z0-9 -]/gi, '').slice(0, 40);
+      if (src === 'grove-sign') { var hear = form.querySelector('[name="How they heard about us"]'); if (hear) hear.value = 'A Keystone yard sign'; }
     } catch (e) {}
     var status = form.querySelector('.status');
     var submit = form.querySelector('button[type="submit"]');
