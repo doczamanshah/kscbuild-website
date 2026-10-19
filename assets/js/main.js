@@ -94,12 +94,22 @@
       data.forEach(function (v, k) { payload[k] = v; });
       submit.disabled = true; submit.textContent = 'Sending…';
       status.className = 'status';
-      fetch(form.getAttribute('data-ajax'), {
+      // Two independent deliveries: the Keystone Privé pipeline and the FormSubmit email to support@.
+      // The inquiry counts as sent if either one gets it.
+      var toPipeline = form.getAttribute('data-intake') ? fetch(form.getAttribute('data-intake'), {
+        method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'apikey': form.getAttribute('data-intake-key') },
+        body: JSON.stringify({ p: payload })
+      }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { return !!(j && j.ok); })
+        .catch(function () { return false; }) : Promise.resolve(false);
+      var toEmail = fetch(form.getAttribute('data-ajax'), {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload)
-      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok && j && (j.success === 'true' || j.success === true), j: j }; }); })
+      }).then(function (r) { return r.json().then(function (j) { return r.ok && j && (j.success === 'true' || j.success === true); }); })
+        .catch(function () { return false; });
+      Promise.all([toPipeline, toEmail])
         .then(function (res) {
-          if (res.ok) { location.href = form.getAttribute('data-thanks'); return; }
-          throw new Error((res.j && res.j.message) || 'Request failed');
+          if (res[0] || res[1]) { location.href = form.getAttribute('data-thanks'); return; }
+          throw new Error('Request failed');
         })
         .catch(function () {
           submit.disabled = false; submit.textContent = 'Send my inquiry';
