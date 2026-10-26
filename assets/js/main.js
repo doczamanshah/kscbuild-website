@@ -82,7 +82,7 @@
       if (src && srcIn) srcIn.value = src.replace(/[^a-z0-9-]/gi, '').slice(0, 40);
       var lot = params.get('lot'), lotIn = form.querySelector('[name="Homesite of interest (auto)"]');
       if (lot && lotIn) lotIn.value = lot.replace(/[^a-z0-9 -]/gi, '').slice(0, 40);
-      if (src === 'grove-sign') { var hear = form.querySelector('[name="How they heard about us"]'); if (hear) hear.value = 'A Keystone yard sign'; }
+      if (src && /-sign$/i.test(src)) { var hear = form.querySelector('[name="How they heard about us"]'); if (hear) hear.value = 'A Keystone yard sign'; }
     } catch (e) {}
     var status = form.querySelector('.status');
     var submit = form.querySelector('button[type="submit"]');
@@ -116,6 +116,18 @@
           status.className = 'status err';
           status.innerHTML = 'Something went wrong sending your inquiry. Please try again, or email us directly at <a href="mailto:support@kscbuild.com">support@kscbuild.com</a> or call <a href="tel:+19382166630">(938) 216-6630</a>.';
         });
+    });
+  }
+
+  /* Homesites: filter build opportunities by region */
+  var chips = document.querySelectorAll('[data-region]');
+  if (chips.length) {
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        var r = c.getAttribute('data-region');
+        chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+        document.querySelectorAll('[data-group]').forEach(function (g) { g.hidden = !(r === 'all' || g.getAttribute('data-group') === r); });
+      });
     });
   }
 
